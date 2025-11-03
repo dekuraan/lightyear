@@ -185,6 +185,7 @@ approx = "0.5.1"
 bevy = { version = "0.17", default-features = false, features = [
   "bevy_state",
   "bevy_log",
+  "bevy_gltf",
   "serialize",
   "bevy_asset",
   "bevy_state",
@@ -204,7 +205,6 @@ bevy_platform = { version = "0.17", default-features = false }
 bevy_ptr = { version = "0.17", default-features = false }
 bevy_reflect = { version = "0.17", default-features = false }
 bevy_text = { version = "0.17", default-features = false }
-bevy_gltf = { version = "0.17", default-features = false }
 bevy_time = { version = "0.17", default-features = false }
 bevy_transform = { version = "0.17", default-features = false }
 bevy_ui = { version = "0.17", default-features = false }
