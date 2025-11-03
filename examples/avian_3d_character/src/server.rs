@@ -134,14 +134,17 @@ fn player_shoot(
 }
 
 // Renamed from init, removed start_server
-fn setup(mut commands: Commands) {
-    commands.spawn((
-        Name::new("Floor"),
-        FloorPhysicsBundle::default(),
-        FloorMarker,
-        Position::new(Vec3::ZERO),
-        Replicate::to_clients(NetworkTarget::All),
+fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+    commands.spawn(SceneRoot(
+        asset_server.load(GltfAssetLabel::Scene(0).from_asset("my_export.gltf")),
     ));
+    // commands.spawn((
+    //     Name::new("Floor"),
+    //     FloorPhysicsBundle::default(),
+    //     FloorMarker,
+    //     Position::new(Vec3::ZERO),
+    //     Replicate::to_clients(NetworkTarget::All),
+    // ));
 
     commands.spawn((
         Name::new("Block"),

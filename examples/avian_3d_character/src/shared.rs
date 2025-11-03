@@ -106,6 +106,7 @@ impl Plugin for SharedPlugin {
             replication_mode: AvianReplicationMode::Position,
             ..default()
         });
+
         app.add_plugins(
             PhysicsPlugins::default()
                 .build()
