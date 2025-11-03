@@ -1,6 +1,8 @@
 use bevy::ecs::query::QueryData;
+use bevy::gltf::GltfPlugin;
 use bevy::math::VectorSpace;
 use bevy::prelude::*;
+use bevy::scene::ScenePlugin;
 use bevy_skein::SkeinPlugin;
 use core::hash::Hash;
 
@@ -99,6 +101,9 @@ pub struct SharedPlugin;
 impl Plugin for SharedPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(ProtocolPlugin);
+        app.add_plugins(AssetPlugin::default());
+        app.add_plugins(ScenePlugin::default());
+        app.add_plugins(GltfPlugin::default());
         app.add_plugins(SkeinPlugin::default());
 
         // Physics
