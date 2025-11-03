@@ -30,6 +30,9 @@ pub enum CharacterAction {
     Move,
     Jump,
     Shoot,
+    DropPallet,
+    VaultPallet,
+    VaultWindow,
 }
 
 impl Actionlike for CharacterAction {
@@ -38,6 +41,9 @@ impl Actionlike for CharacterAction {
             Self::Move => InputControlKind::DualAxis,
             Self::Jump => InputControlKind::Button,
             Self::Shoot => InputControlKind::Button,
+            Self::DropPallet => InputControlKind::Button,
+            Self::VaultPallet => InputControlKind::Button,
+            Self::VaultWindow => InputControlKind::Button,
         }
     }
 }

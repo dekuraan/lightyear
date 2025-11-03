@@ -19,6 +19,9 @@ pub const FLOOR_HEIGHT: f32 = 1.0;
 pub const BLOCK_WIDTH: f32 = 1.0;
 pub const BLOCK_HEIGHT: f32 = 1.0;
 
+pub const PALLET_WIDTH: f32 = 1.0;
+pub const PALLET_HEIGHT: f32 = 1.0;
+
 pub const CHARACTER_CAPSULE_RADIUS: f32 = 0.5;
 pub const CHARACTER_CAPSULE_HEIGHT: f32 = 0.5;
 
@@ -74,6 +77,21 @@ impl Default for BlockPhysicsBundle {
     }
 }
 
+#[derive(Bundle)]
+pub(crate) struct PalletPhysicsBundle {
+    collider: Collider,
+    rigid_body: RigidBody,
+}
+
+impl Default for PalletPhysicsBundle {
+    fn default() -> Self {
+        Self {
+            collider: Collider::cuboid(PALLET_WIDTH, PALLET_HEIGHT, PALLET_WIDTH),
+            rigid_body: RigidBody::Dynamic,
+        }
+    }
+}
+
 #[derive(Clone)]
 pub struct SharedPlugin;
 
@@ -92,6 +110,7 @@ impl Plugin for SharedPlugin {
                 // disable the position<>transform sync plugins as it is handled by lightyear_avian
                 .disable::<PhysicsTransformPlugin>()
                 .disable::<PhysicsInterpolationPlugin>() // disable Sleeping plugin as it can mess up physics rollbacks
+                .disable::<IslandPlugin>()
                 .disable::<IslandSleepingPlugin>(),
         );
 
@@ -126,31 +145,31 @@ pub fn apply_character_action(
     let max_velocity_delta_per_tick = MAX_ACCELERATION * time.delta_secs();
 
     // Handle jumping.
-    if action_state.just_pressed(&CharacterAction::Jump) {
-        let ray_cast_origin = forces.position().0
-            + Vec3::new(
-                0.0,
-                -CHARACTER_CAPSULE_HEIGHT / 2.0 - CHARACTER_CAPSULE_RADIUS,
-                0.0,
-            );
+    // if action_state.just_pressed(&CharacterAction::Jump) {
+    //     let ray_cast_origin = forces.position().0
+    //         + Vec3::new(
+    //             0.0,
+    //             -CHARACTER_CAPSULE_HEIGHT / 2.0 - CHARACTER_CAPSULE_RADIUS,
+    //             0.0,
+    //         );
 
-        // Only jump if the character is on the ground.
-        //
-        // Check if we are touching the ground by sending a ray from the bottom
-        // of the character downwards.
-        if spatial_query
-            .cast_ray(
-                ray_cast_origin,
-                Dir3::NEG_Y,
-                0.01,
-                true,
-                &SpatialQueryFilter::from_excluded_entities([entity]),
-            )
-            .is_some()
-        {
-            forces.apply_linear_impulse(Vec3::new(0.0, 5.0, 0.0));
-        }
-    }
+    //     // Only jump if the character is on the ground.
+    //     //
+    //     // Check if we are touching the ground by sending a ray from the bottom
+    //     // of the character downwards.
+    //     if spatial_query
+    //         .cast_ray(
+    //             ray_cast_origin,
+    //             Dir3::NEG_Y,
+    //             0.01,
+    //             true,
+    //             &SpatialQueryFilter::from_excluded_entities([entity]),
+    //         )
+    //         .is_some()
+    //     {
+    //         forces.apply_linear_impulse(Vec3::new(0.0, 5.0, 0.0));
+    //     }
+    // }
 
     // Handle moving.
     let move_dir = action_state
