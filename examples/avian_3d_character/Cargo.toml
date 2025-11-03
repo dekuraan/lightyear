@@ -7,25 +7,15 @@ publish = false
 
 [features]
 default = ["client", "gui", "server", "netcode", "udp"]
-client = [
-  "gui",
-  "lightyear/client",
-  "lightyear_examples_common/client"
-]
-gui = [
-  "lightyear_examples_common/gui"
-]
+client = ["gui", "lightyear/client", "lightyear_examples_common/client"]
+gui = ["lightyear_examples_common/gui"]
 server = [
   "lightyear/server",
-  "lightyear_examples_common/server"
+  "lightyear_examples_common/server",
+  "bevy_skein/brp",
 ]
-netcode = [
-  "lightyear_examples_common/netcode"
-]
-udp = [
-  "lightyear_examples_common/udp",
-  "lightyear/udp",
-]
+netcode = ["lightyear_examples_common/netcode"]
+udp = ["lightyear_examples_common/udp", "lightyear/udp"]
 
 [dependencies]
 lightyear = { workspace = true, features = [
@@ -50,6 +40,7 @@ avian3d = { workspace = true, features = [
 ] }
 serde.workspace = true
 bevy.workspace = true
+bevy_skein = { version = "0.3.0", default-features = false }
 
 [target."cfg(target_family = \"wasm\")".dependencies]
 console_error_panic_hook.workspace = true

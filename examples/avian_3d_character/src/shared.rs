@@ -1,6 +1,7 @@
 use bevy::ecs::query::QueryData;
 use bevy::math::VectorSpace;
 use bevy::prelude::*;
+use bevy_skein::SkeinPlugin;
 use core::hash::Hash;
 
 use crate::protocol::*;
@@ -98,6 +99,7 @@ pub struct SharedPlugin;
 impl Plugin for SharedPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(ProtocolPlugin);
+        app.add_plugins(SkeinPlugin::default());
 
         // Physics
         app.add_plugins(lightyear::avian3d::plugin::LightyearAvianPlugin {
